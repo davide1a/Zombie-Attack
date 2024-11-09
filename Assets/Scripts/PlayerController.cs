@@ -10,18 +10,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed = 15;
     private float xBound = 12;
     private float zBound = 7;
-    public GameObject projectile;
-    private Animator playerAnim; 
+    private Animator playerAnim;
     private bool isDead = false;
     [SerializeField] private AudioSource playerAudio;
     [SerializeField] private AudioClip collectibleSound;
     [SerializeField] private AudioClip gunshot;
     [SerializeField] private AudioClip dying;
     [SerializeField] private AudioClip rescue;
-    private GameManager gameManager;
     int brideSavedScore = 50;
     int bulletsCollected = 10;
-
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +27,6 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -45,7 +41,7 @@ public class PlayerController : MonoBehaviour
             // Shoot a bullet when space bar is pressed
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (gameManager.bulletCount > 0)
+                if (GameManager.SharedInstance.bulletCount > 0)
                 {
                     ShootProjectile();
                 }
@@ -65,7 +61,9 @@ public class PlayerController : MonoBehaviour
         if (verticalInput != 0 || horizontalInput != 0)
         {
             playerAnim.SetFloat("Blend", 1);
-        } else {
+        }
+        else
+        {
             playerAnim.SetFloat("Blend", 0);
         }
 
@@ -97,15 +95,15 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetFloat("Blend", -1);
             playerAudio.PlayOneShot(dying);
             Debug.Log("Player eaten!");
-            gameManager.GameOver();
+            GameManager.SharedInstance.GameOver();
         }
         // If player touches a bride, they save her
         if (collision.gameObject.CompareTag("Bride"))
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             playerAudio.PlayOneShot(rescue);
             Debug.Log("Bride Saved!");
-            gameManager.UpdateScore(brideSavedScore);
+            GameManager.SharedInstance.UpdateScore(brideSavedScore);
         }
     }
 
@@ -115,18 +113,25 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Bullet Collectible"))
         {
             playerAudio.PlayOneShot(collectibleSound);
-            Destroy(other.transform.parent.gameObject);
+            other.transform.parent.gameObject.SetActive(false);
             Debug.Log("Bullets Collected");
-            gameManager.UpdateBullets(bulletsCollected);
+            GameManager.SharedInstance.UpdateBullets(bulletsCollected);
         }
     }
 
     private void ShootProjectile()
     {
         playerAnim.SetFloat("Blend", 3);
+        // Get player position plus slightoffset
         Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z + 1f);
-        Instantiate(projectile, spawnPos, projectile.transform.rotation);
+        // Get an object from the pool
+        GameObject pooledProjectiles = ObjectPooler.SharedInstance.GetPooledProjectile();
+        if (pooledProjectiles != null)
+        {
+            pooledProjectiles.SetActive(true); // Activate the new object
+            pooledProjectiles.transform.position = spawnPos; // Position it at player position
+        }
         playerAudio.PlayOneShot(gunshot);
-        gameManager.UpdateBullets(-1);
+        GameManager.SharedInstance.UpdateBullets(-1);
     }
 }

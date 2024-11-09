@@ -607,13 +607,7 @@ MonoBehaviour:
   restartButton: {fileID: 1719077909}
   isGameActive: 0
   bulletCount: 0
-  difficultyMultiplier: 0
-  zombies:
-  - {fileID: 7414898348032297030, guid: e5b4da13234f24673bcd23e913e99bba, type: 3}
-  - {fileID: 4756365524606834338, guid: d174e09a5e66d4976954184dd967ae9e, type: 3}
-  - {fileID: 5971477605769081247, guid: 7d7d234923a744aadb33a83ea6410cbc, type: 3}
-  - {fileID: 3052632253148120103, guid: 2f72a48badee946609105c429ba05ee4, type: 3}
-  bulletCollectible: {fileID: 5111329721004131079, guid: 31ccd1ac30b6d487485720a06325b2ac, type: 3}
+  difficultyMultiplier: 1
 --- !u!4 &399231094
 Transform:
   m_ObjectHideFlags: 0
@@ -753,13 +747,14 @@ GameObject:
   m_Component:
   - component: {fileID: 554983763}
   - component: {fileID: 554983762}
+  - component: {fileID: 554983764}
   m_Layer: 0
   m_Name: Spawn Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &554983762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,12 +767,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11fe70ba56c34cc68f01d3401dcf4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zombies:
+  zombiePrefabs:
   - {fileID: 4756365524606834338, guid: d174e09a5e66d4976954184dd967ae9e, type: 3}
-  - {fileID: 8499877426321753586, guid: 2d099917b387f4e478d2956643903554, type: 3}
   - {fileID: 5971477605769081247, guid: 7d7d234923a744aadb33a83ea6410cbc, type: 3}
   - {fileID: 3052632253148120103, guid: 2f72a48badee946609105c429ba05ee4, type: 3}
-  bullets: {fileID: 5111329721004131079, guid: 31ccd1ac30b6d487485720a06325b2ac, type: 3}
 --- !u!4 &554983763
 Transform:
   m_ObjectHideFlags: 0
@@ -793,6 +786,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &554983764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554983761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39c54d701c6b842b4a7c7a2fd2b80c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledProjectiles: []
+  projectileToPool: {fileID: 9046818553252680003, guid: 7fd0228d359f346f299d2c77e6896e22, type: 3}
+  amountProjectilesToPool: 20
+  pooledCollectibles: []
+  collectiblesToPool: {fileID: 5111329721004131079, guid: 31ccd1ac30b6d487485720a06325b2ac, type: 3}
+  amountCollectiblesToPool: 5
+  pooledBrides: []
+  brideToPool: {fileID: 7414898348032297030, guid: e5b4da13234f24673bcd23e913e99bba, type: 3}
+  amountBridesToPool: 5
 --- !u!1 &563570265
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,7 +842,7 @@ MeshCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
   m_Convex: 0

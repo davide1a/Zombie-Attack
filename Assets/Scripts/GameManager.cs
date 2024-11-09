@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager SharedInstance;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bulletCountText;
     public GameObject titleScreen;
@@ -15,29 +16,11 @@ public class GameManager : MonoBehaviour
     public bool isGameActive;
     private int score;
     public int bulletCount;
-    public int difficultyMultiplier;
-    [SerializeField] private GameObject[] zombies;
-    [SerializeField] private GameObject bulletCollectible;
+    public int difficultyMultiplier = 1;
 
-    private float xRange = 11;
-    private float zRange = 5f;
-    private float zSpawnPos = 10;
-    private float ySpawnPos = 0.5f;
-
-    //private int startDelay = 2;
-    private float spawnInterval = 2;
-    private int bulletSpawnInterval = 5;
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        SharedInstance = this;
     }
 
     public void GameOver()
@@ -56,7 +39,6 @@ public class GameManager : MonoBehaviour
     {
         bulletCount += bulletsToAdd;
         bulletCountText.text = "Ammo: " + bulletCount;
-        Debug.Log("Bullet Count: " + bulletCount);
     }
 
     public void StartGame(int difficulty)
@@ -66,40 +48,10 @@ public class GameManager : MonoBehaviour
         score = 0;
         UpdateScore(0);
         titleScreen.SetActive(false);
-        StartCoroutine(SpawnRandomZombie());
-        StartCoroutine(SpawnBullets());
     }
 
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    IEnumerator SpawnRandomZombie()
-    {
-        while (isGameActive)
-        {
-            yield return new WaitForSeconds(spawnInterval / difficultyMultiplier);
-            float randomX = Random.Range(-xRange, xRange);
-            int randomIndex = Random.Range(0, difficultyMultiplier + 2);
-
-            Vector3 spawnPos = new Vector3(randomX, ySpawnPos, zSpawnPos);
-
-            Instantiate(zombies[randomIndex], spawnPos, zombies[randomIndex].gameObject.transform.rotation);
-        }
-    }
-
-    IEnumerator SpawnBullets()
-    {
-        while (isGameActive)
-        {
-            yield return new WaitForSeconds(bulletSpawnInterval * difficultyMultiplier);
-            float randomX = Random.Range(-xRange, xRange);
-            float randomZ = Random.Range(-zRange, zRange);
-
-            Vector3 spawnPos = new Vector3(randomX, ySpawnPos, randomZ);
-
-            Instantiate(bulletCollectible, spawnPos, bulletCollectible.gameObject.transform.rotation);
-        }
     }
 }

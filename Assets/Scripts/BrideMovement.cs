@@ -9,7 +9,7 @@ public class BrideMovement : MonoBehaviour
     private Animator brideAnim;
     [SerializeField] private float speed = 15;
     private float xBound = 12;
-    private float zBound = 7;
+    private float zBound = 10;
     private bool isDead = false;
     private GameManager gameManager;
     int brideShotScore = -150;
@@ -63,6 +63,7 @@ public class BrideMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // If a bride is attacked by a zombie
         if (collision.gameObject.CompareTag("Zombie"))
         {
             isDead = true;
@@ -70,16 +71,23 @@ public class BrideMovement : MonoBehaviour
             brideAudio.PlayOneShot(brideDying);
             Debug.Log("Bride Eaten!");
             gameManager.UpdateScore(brideKilledScore);
-            Destroy(gameObject, 1);
+            StartCoroutine(RemoveBody());
         }
         else if (collision.gameObject.CompareTag("Projectile"))
         {
+            collision.gameObject.SetActive(false);
             isDead = true;
             brideAnim.SetFloat("Blend", -1);
             brideAudio.PlayOneShot(brideDying);
             Debug.Log("Bride Shot!");
             gameManager.UpdateScore(brideShotScore);
-            Destroy(gameObject, 1);
+            StartCoroutine(RemoveBody());
         }
+    }
+
+    IEnumerator RemoveBody()
+    {
+        yield return new WaitForSeconds(1);
+        gameObject.SetActive(false);
     }
 }

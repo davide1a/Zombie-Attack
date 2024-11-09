@@ -5,7 +5,6 @@ using UnityEngine;
 public class MoveForward : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
-    private float zBound = 12;
     private Rigidbody objectRb;
     private bool isDead = false;
     private Animator objectAnim;
@@ -38,12 +37,6 @@ public class MoveForward : MonoBehaviour
         {
         objectRb.AddForce(Vector3.forward * -speed);
         }
-
-        // Remove object from scene when going off screen
-        if (transform.position.z < -zBound || transform.position.z > zBound)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -54,50 +47,57 @@ public class MoveForward : MonoBehaviour
             isDead = true;
             objectRb.AddForce(Vector3.back * -speed, ForceMode.Impulse);
             audioPlayer.PlayOneShot(zombieShot);
-            objectAnim.SetTrigger("Dead");
-            objectAnim.SetFloat("Blend", -1);
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             Debug.Log("Zombie killed");
             
-            // Add score for different zombies
+            // Add score for different zombies and play their animation
             if (gameObject.name == "Zombie1(Clone)")
             {
+                objectAnim.SetTrigger("Dead");
                 gameManager.UpdateScore(zombie1score);
             }
             else if (gameObject.name == "Zombie2(Clone)")
             {
+                objectAnim.SetFloat("Blend", -1);
                 gameManager.UpdateScore(zombie2score);
             }
             else if (gameObject.name == "Zombie3(Clone)")
             {
+                objectAnim.SetFloat("Blend", -1);
                 gameManager.UpdateScore(zombie3score);
             }
 
             Destroy(gameObject, 1);
         }
 
-        // If a bullet hits a bride, kill them
-        if (gameObject.CompareTag("Projectile") && collision.gameObject.CompareTag("Bride"))
-        {
-            Destroy(gameObject);
-        }
-
         // If a zombie attacks the player
         if (collision.gameObject.CompareTag("Player"))
         {
-            objectAnim.SetTrigger("Attack");
-            objectAnim.SetFloat("Blend", 1);
             audioPlayer.PlayOneShot(zombieAttack);
-            StartCoroutine(ResetAnim());
+            if (gameObject.name == "Zombie1(Clone)")
+            {
+                objectAnim.SetTrigger("Attack");
+            }
+            else if (gameObject.name == "Zombie2(Clone)")
+            {
+                objectAnim.SetFloat("Blend", 1);
+                StartCoroutine(ResetAnim());
+            }
         }
 
         // If a zombie attacks a bride
         if (collision.gameObject.CompareTag("Bride"))
         {
-            objectAnim.SetTrigger("Attack");
-            objectAnim.SetFloat("Blend", 1);
             audioPlayer.PlayOneShot(zombieAttack);
-            StartCoroutine(ResetAnim());
+            if (gameObject.name == "Zombie1(Clone)")
+            {
+                objectAnim.SetTrigger("Attack");
+            }
+            else if (gameObject.name == "Zombie2(Clone)")
+            {
+                objectAnim.SetFloat("Blend", 1);
+                StartCoroutine(ResetAnim());
+            }
         }
     }
 
