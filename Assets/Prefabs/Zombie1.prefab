@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 963dbc7921f304b89a922abdd71e8d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
+  speed: 32
   zombieShot: {fileID: 8300000, guid: efec5f3a773b84f5fa2ae40719d54aea, type: 3}
   zombieWalking:
   - {fileID: 8300000, guid: efa11009185a349b2803bba7a5034002, type: 3}
