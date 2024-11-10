@@ -1939,7 +1939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brideRb: {fileID: 0}
-  speed: 130
+  speed: 25
   brideDying: {fileID: 8300000, guid: e09d8c9e8cc14e348bd235dfcbd09f0a, type: 3}
 --- !u!82 &2567923148918591991
 AudioSource:

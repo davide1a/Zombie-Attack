@@ -30,12 +30,12 @@ public class MoveForward : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // Move the object forwards if it has not been shot
         if (!isDead)
         {
-        objectRb.AddForce(Vector3.forward * -speed);
+        objectRb.AddForce(Vector3.forward * -speed, ForceMode.Impulse);
         }
     }
 

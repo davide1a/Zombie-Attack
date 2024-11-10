@@ -29,15 +29,11 @@ public class PlayerController : MonoBehaviour
         playerAudio = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         // As long as player is alive
         if (!isDead)
         {
-            // Call the move player function 
-            MovePlayer();
-
             // Shoot a bullet when space bar is pressed
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -49,13 +45,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        // As long as player is alive
+        if (!isDead)
+        {
+            // Call the move player function 
+            MovePlayer();
+        }
+    }
+
     void MovePlayer()
     {
         // Get player input and move player
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        playerRb.AddForce(Vector3.forward * speed * verticalInput);
-        playerRb.AddForce(Vector3.right * speed * horizontalInput);
+        playerRb.AddForce(Vector3.forward * speed * verticalInput, ForceMode.Impulse);
+        playerRb.AddForce(Vector3.right * speed * horizontalInput, ForceMode.Impulse);
 
         // Animate player when moving
         if (verticalInput != 0 || horizontalInput != 0)

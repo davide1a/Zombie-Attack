@@ -14,8 +14,8 @@ public class ProjectileMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        objectRb.AddForce(Vector3.forward * speed);
+        objectRb.AddForce(Vector3.forward * speed, ForceMode.Impulse);
     }
 }

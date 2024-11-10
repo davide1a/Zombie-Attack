@@ -122,7 +122,7 @@ Rigidbody:
   m_GameObject: {fileID: 4756365524606834338}
   serializedVersion: 4
   m_Mass: 20
-  m_Drag: 3
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 963dbc7921f304b89a922abdd71e8d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 32
+  speed: 6
   zombieShot: {fileID: 8300000, guid: efec5f3a773b84f5fa2ae40719d54aea, type: 3}
   zombieWalking:
   - {fileID: 8300000, guid: efa11009185a349b2803bba7a5034002, type: 3}

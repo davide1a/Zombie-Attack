@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BrideMovement : MonoBehaviour
@@ -28,7 +29,7 @@ public class BrideMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!isDead)
         {
@@ -39,7 +40,7 @@ public class BrideMovement : MonoBehaviour
     void MoveBride()
     {
         Vector3 lookDirection = (player.transform.position - transform.position).normalized;
-        brideRb.AddForce(lookDirection * speed);
+        brideRb.AddForce(lookDirection * speed, ForceMode.Impulse);
         brideAnim.SetFloat("Blend", 1);
 
         // Constrain player within bounds

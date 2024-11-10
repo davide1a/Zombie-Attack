@@ -44,7 +44,7 @@ public class SpawnManager : MonoBehaviour
             //yield return new WaitForSeconds(bulletSpawnInterval * GameManager.SharedInstance.difficultyMultiplier);
             // Generate rondom spawn position
             float randomX = Random.Range(-xRange, xRange);
-            float randomZ = Random.Range(-zRange, zRange);
+            float randomZ = Random.Range(-zRange-1, zRange-1);
             Vector3 spawnPos = new Vector3(randomX, ySpawnPos, randomZ);
             // Get an object from the pool
             GameObject pooledCollectibles = ObjectPooler.SharedInstance.GetPooledCollectible();
