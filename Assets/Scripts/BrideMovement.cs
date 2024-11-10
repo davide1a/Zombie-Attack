@@ -89,5 +89,6 @@ public class BrideMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         gameObject.SetActive(false);
+        isDead = false;
     }
 }

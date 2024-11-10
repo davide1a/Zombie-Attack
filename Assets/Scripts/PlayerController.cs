@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
     {
         playerAnim.SetFloat("Blend", 3);
         // Get player position plus slightoffset
-        Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z + 1f);
+        Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z + 1f);
         // Get an object from the pool
         GameObject pooledProjectiles = ObjectPooler.SharedInstance.GetPooledProjectile();
         if (pooledProjectiles != null)
